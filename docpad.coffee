@@ -15,17 +15,14 @@ docpadConfig = {
 
     events:
         renderBefore: () ->
-            # Rewrite `pages/` to the root.
+            # Rewrite `pages/` to the root and `posts/` to the `blog/`.
             this.docpad.getCollection('documents').forEach (page) ->
-                newOutPath = page.get('outPath').replace('/out/pages/', '/out/')
-                newUrl = page.get('url').replace('pages/', '')
-                page.set('outPath', newOutPath)
-                page.setUrl(newUrl)
-
-            # Rewrite `posts/` to the `blog/`.
-            this.docpad.getCollection('documents').forEach (page) ->
-                newOutPath = page.get('outPath').replace('/out/posts/', '/out/blog/')
-                newUrl = page.get('url').replace('posts/', 'blog/')
+                newOutPath = page.get('outPath')
+                    .replace('/out/pages/', '/out/')
+                    .replace('/out/posts/', '/out/blog/')
+                newUrl = page.get('url')
+                    .replace('pages/', '')
+                    .replace('posts/', 'blog/')
                 page.set('outPath', newOutPath)
                 page.setUrl(newUrl)
 
