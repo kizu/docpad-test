@@ -22,6 +22,13 @@ docpadConfig = {
                 page.set('outPath', newOutPath)
                 page.setUrl(newUrl)
 
+            # Rewrite `posts/` to the `blog/`.
+            this.docpad.getCollection('documents').forEach (page) ->
+                newOutPath = page.get('outPath').replace('/out/posts/', '/out/blog/')
+                newUrl = page.get('url').replace('posts/', 'blog/')
+                page.set('outPath', newOutPath)
+                page.setUrl(newUrl)
+
             # Rewrite `_ru` to the `/ru/`
             this.docpad.getCollection('ruDocuments').forEach (page) ->
                 newOutPath = page.get('outPath')
