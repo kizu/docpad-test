@@ -27,22 +27,15 @@ docpadConfig = {
                 page.setUrl(newUrl)
 
             # Rewrite `_ru` to the `/ru/`
-            this.docpad.getCollection('ruDocuments').forEach (page) ->
-                newOutPath = page.get('outPath')
-                    .replace('/out/', '/out/ru/')
-                    .replace('_ru.', '.')
-                newUrl = '/ru' + page.get('url')
-                page.set('outPath', newOutPath)
-                page.setUrl(newUrl)
-
-            # Rewrite `_en` to the `/en/`
-            this.docpad.getCollection('enDocuments').forEach (page) ->
-                newOutPath = page.get('outPath')
-                    .replace('/out/', '/out/en/')
-                    .replace('_en.', '.')
-                page.set('outPath', newOutPath)
-                newUrl = '/en' + page.get('url').replace('_en.', '.')
-                page.setUrl(newUrl)
+            for language in ['ru', 'en']
+                this.docpad.getCollection(language + 'Documents').forEach (page) ->
+                    newOutPath = page.get('outPath')
+                        .replace('/out/', '/out/' + language + '/')
+                        .replace('_' + language + '.', '.')
+                    newUrl = '/' + language + page.get('url')
+                        .replace('_' + language + '.', '.')
+                    page.set('outPath', newOutPath)
+                    page.setUrl(newUrl)
 }
 
 # Export the DocPad Configuration
