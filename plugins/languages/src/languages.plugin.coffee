@@ -17,25 +17,31 @@
 
                     addPrefixRegex = ///(#{initialName}_#{language})///
                     removePostfixRegex = ///(#{initialName})_#{language}///
+                    replaceWithIndex = ///(#{initialName})\.html///
 
                     replacePath = (input) ->
                         input
                             .replace(addPrefixRegex, "#{language}/$1")
                             .replace(removePostfixRegex, "$1")
+                            .replace(replaceWithIndex, "$1/index.html")
 
                     replaceAttibute = (attribute) ->
                         document.set attribute, replacePath document.get(attribute)
 
                     # Change urls
-                    newUrl = replacePath document.get('url')
+                    newUrl = replacePath document.get('url') + '/' # Could add `index.html` for really static env
                     document.setUrl(newUrl)
                     document.set('urls', [newUrl])
 
-                    # Change rel dit path
+                    # Change rel dir path
                     document.set 'relativeOutDirPath', "#{language}/#{document.get('relativeOutDirPath')}"
 
                     # Change all the other stuff
                     replaceAttibute 'outPath'
-                    replaceAttibute 'outBasename'
                     replaceAttibute 'relativeOutPath'
-                    replaceAttibute 'relativeOutBase'
+
+
+                    # replaceAttibute 'outBasename'
+                    # replaceAttibute 'relativeOutBase'
+
+                    # document.set 'relativeOutBase', (document.get('relativeOutBase') + '/')
