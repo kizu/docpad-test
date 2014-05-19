@@ -9,8 +9,8 @@
             renderBefore: (opts) ->
                 docpad = @docpad
                 languages = ['ru', 'en'] # Move to config of the plugin
-                languageRegex = ///^(.+?)_(#{languages.join('|')})$///
-                docpad.getCollection('documents').findAllLive({basename: languageRegex}).forEach (document) ->
+                languageRegex = ///^(.+?)_(#{languages.join('|')})///
+                docpad.getCollection('documents').findAllLive({relativePath: languageRegex}).forEach (document) ->
                     parts = document.attributes.relativeBase.match(languageRegex)
                     initialName = parts[1]
                     language = parts[2]
@@ -29,7 +29,9 @@
                         document.set attribute, replacePath document.get(attribute)
 
                     # Change urls
-                    newUrl = replacePath document.get('url') + '/' # Could add `index.html` for really static env
+                    newUrl = replacePath document.get('url') # Could add `index.html` for really static env
+                    if not newUrl.match(/\.\w+$/)
+                        newUrl = newUrl + '/'
                     document.setUrl(newUrl)
                     document.set('urls', [newUrl])
 
