@@ -2,6 +2,15 @@
 # http://docpad.org/docs/config
 
 docpadConfig = {
+    plugins:
+        stylus:
+            stylusLibraries:
+                nib: false
+                'autoprefixer-stylus': true
+            stylusOptions:
+                compress: true
+                'include css': true
+
     events:
         renderBefore: () ->
 
